@@ -6,7 +6,7 @@ theme:
   negative-color: 347 70 65
 
 pages:
-  - name: Home
+  - name: Niyaki Phạm
     columns:
       - size: small
         widgets:
@@ -21,7 +21,6 @@ pages:
               - url: https://selfh.st/rss/
                 title: selfh.st
                 limit: 4
-              - url: https://2game.vn/post-sitemap.xml
               - url: https://www.joshwcomeau.com/rss.xml
                 title: Josh Comeau
               - url: https://samwho.dev/rss.xml
@@ -39,10 +38,11 @@ pages:
 
       - size: full
         widgets:
-          - type: group
+          - type: reddit
+            subreddit: unixporn
             style: horizontal-cards
-            widgets:
-              - type: hacker-news
+            show-thumbnails: true
+          
                 
           
           - type: videos
@@ -60,15 +60,12 @@ pages:
               - UCWE41Zsrn21L-J5yFwQROjg # tri thuc nhan loai
               - UCMYT8xymrm4VOP241b86MCQ # dung lai lap trinh
               - UCpss48CF_RbbhWsUIl_yxsA # setup pc
+          
           - type: group
             widgets:
               - type: reddit
-                subreddit: technology
-                show-thumbnails: true
-              - type: reddit
-                subreddit: selfhosted
-                show-thumbnails: true
-
+                subreddit: streetsofrogue
+                
       - size: small
         widgets:
           - type: server-stats
