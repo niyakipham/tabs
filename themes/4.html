@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEO START</title>
+    <style>
+        :root {
+            --bg-dark: #0a0a0a;
+            --text-light: #f0f0f0;
+            --neon-pink: #ff00aa;
+            --neon-glow: 0 0 10px rgba(255, 0, 170, 0.7), 0 0 20px rgba(255, 0, 170, 0.5);
+            --futuristic-border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .background-art {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.15;
+        }
+        
+        .geometric-shape {
+            position: absolute;
+            border: var(--futuristic-border);
+            border-radius: 50%;
+            box-shadow: var(--neon-glow);
+        }
+        
+        .shape-1 {
+            width: 300px;
+            height: 300px;
+            top: -100px;
+            left: -100px;
+            background: radial-gradient(circle, var(--neon-pink), transparent 70%);
+        }
+        
+        .shape-2 {
+            width: 200px;
+            height: 200px;
+            bottom: -50px;
+            right: -50px;
+            background: radial-gradient(circle, transparent 60%, var(--neon-pink));
+        }
+        
+        .container {
+            width: 80%;
+            max-width: 800px;
+            text-align: center;
+            padding: 2rem;
+            backdrop-filter: blur(5px);
+            border: var(--futuristic-border);
+            border-radius: 12px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5), var(--neon-glow);
+        }
+        
+        h1 {
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--text-light);
+            text-shadow: 0 0 8px var(--neon-pink);
+        }
+        
+        .time-display {
+            font-size: 4rem;
+            font-weight: 200;
+            margin: 1rem 0;
+            color: var(--neon-pink);
+        }
+        
+        .date-display {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-bottom: 2rem;
+        }
+        
+        .search-container {
+            width: 100%;
+            margin: 2rem 0;
+        }
+        
+        .search-bar {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.1rem;
+            background: rgba(20, 20, 20, 0.7);
+            border: var(--futuristic-border);
+            border-radius: 50px;
+            color: var(--text-light);
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        .search-bar:focus {
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 15px var(--neon-pink);
+        }
+        
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .link-item {
+            padding: 0.8rem;
+            background: rgba(30, 30, 30, 0.5);
+            border: var(--futuristic-border);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .link-item:hover {
+            background: rgba(255, 0, 170, 0.1);
+            border-color: var(--neon-pink);
+            transform: translateY(-3px);
+        }
+        
+        .link-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--neon-pink);
+        }
+        
+        .link-name {
+            font-size: 0.9rem;
+        }
+        
+        .futuristic-line {
+            height: 1px;
+            width: 100%;
+            background: linear-gradient(90deg, transparent, var(--neon-pink), transparent);
+            margin: 2rem 0;
+            opacity: 0.5;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .time-display {
+                font-size: 3rem;
+            }
+            
+            .quick-links {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-art">
+        <div class="geometric-shape shape-1"></div>
+        <div class="geometric-shape shape-2"></div>
+    </div>
+    
+    <div class="container">
+        <h1>NEO START</h1>
+        
+        <div class="time-display" id="time">00:00:00</div>
+        <div class="date-display" id="date">Monday, January 1, 2023</div>
+        
+        <div class="futuristic-line"></div>
+        
+        <div class="search-container">
+            <input type="text" class="search-bar" placeholder="Search or enter address...">
+        </div>
+        
+        <div class="quick-links">
+            <div class="link-item">
+                <div class="link-icon">✉️</div>
+                <div class="link-name">Mail</div>
+            </div>
+            <div class="link-item">
+                <div class="link-icon">📁</div>
+                <div class="link-name">Drive</div>
+            </div>
+            <div class="link-item">
+                <div class="link-icon">🎵</div>
+                <div class="link-name">Music</div>
+            </div>
+            <div class="link-item">
+                <div class="link-icon">🎥</div>
+                <div class="link-name">Videos</div>
+            </div>
+            <div class="link-item">
+                <div class="link-icon">📊</div>
+                <div class="link-name">Analytics</div>
+            </div>
+            <div class="link-item">
+                <div class="link-icon">🛒</div>
+                <div class="link-name">Shop</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function updateTime() {
+            const now = new Date();
+            
+            // Update time
+            const timeElement = document.getElementById('time');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            timeElement.textContent = `${hours}:${minutes}:${seconds}`;
+            
+            // Update date
+            const dateElement = document.getElementById('date');
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            dateElement.textContent = now.toLocaleDateString('en-US', options);
+        }
+        
+        // Update time immediately and then every second
+        updateTime();
+        setInterval(updateTime, 1000);
+        
+        // Focus search bar on page load
+        document.querySelector('.search-bar').focus();
+        
+        // Add animation to geometric shapes
+        const shapes = document.querySelectorAll('.geometric-shape');
+        shapes.forEach((shape, index) => {
+            let x = 0;
+            let y = 0;
+            let xSpeed = (index + 1) * 0.1;
+            let ySpeed = (index + 1) * 0.1;
+            
+            function animate() {
+                x += xSpeed;
+                y += ySpeed;
+                
+                const maxX = window.innerWidth - shape.offsetWidth;
+                const maxY = window.innerHeight - shape.offsetHeight;
+                
+                if (x <= 0 || x >= maxX) xSpeed *= -1;
+                if (y <= 0 || y >= maxY) ySpeed *= -1;
+                
+                shape.style.transform = `translate(${x}px, ${y}px) rotate(${x}deg)`;
+                
+                requestAnimationFrame(animate);
+            }
+            
+            animate();
+        });
+    </script>
+</body>
+</html>
