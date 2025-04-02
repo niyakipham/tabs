@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>CYBERSPACE HUB</title>
+    <style>
+        :root {
+            --neon-blue: #00f3ff;
+            --cyber-purple: #bc00ff;
+            --dark-bg: #0a0a0a;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            background: var(--dark-bg);
+            color: white;
+            font-family: 'Bebas Neue', sans-serif;
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 30px;
+        }
+
+        /* Glitch Effect */
+        .glitch-text {
+            animation: glitch 2s infinite;
+            position: relative;
+        }
+
+        @keyframes glitch {
+            2% { text-shadow: 3px 0 var(--neon-blue), -3px 0 var(--cyber-purple); }
+            4% { clip-path: inset(20% 0 30% 0); }
+            96% { clip-path: inset(20% 0 30% 0); }
+            98% { text-shadow: -3px 0 var(--neon-blue), 3px 0 var(--cyber-purple); }
+        }
+
+        /* Asymmetric Layout */
+        .main-panel {
+            border-right: 3px solid;
+            border-image: linear-gradient(45deg, var(--neon-blue), transparent) 1;
+            padding-right: 30px;
+        }
+
+        .side-panel {
+            position: relative;
+            padding-left: 20px;
+        }
+
+        /* Futuristic Elements */
+        .cyber-border {
+            border: 2px solid;
+            border-image: linear-gradient(135deg, var(--cyber-purple), var(--neon-blue)) 1;
+            padding: 20px;
+            position: relative;
+            background: linear-gradient(45deg, #ffffff08, #ffffff02);
+        }
+
+        /* Music Player */
+        .music-player {
+            margin-top: 40px;
+            position: relative;
+        }
+
+        .music-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        /* Todo List */
+        .todo-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .todo-item {
+            padding: 10px;
+            margin: 5px 0;
+            background: #ffffff08;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="main-panel">
+        <h1 class="glitch-text">CYBERSPACE HUB</h1>
+        
+        <div class="cyber-border">
+            <h2>MISSION CONTROL</h2>
+            <div class="todo-list">
+                <input type="text" placeholder="Add new task..." style="width: 80%; background: #ffffff10; color: white; border: none; padding: 8px;">
+                <ul id="todo-items"></ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="side-panel">
+        <div class="cyber-border">
+            <h2>NEURAL PLAYER</h2>
+            <div class="music-player">
+                <div class="music-controls">
+                    <button style="background: var(--neon-blue); border: none; padding: 8px 15px;">▶</button>
+                    <span>Now Playing: Cyber Symphony</span>
+                </div>
+                <audio id="player" src="your-audio-file.mp3"></audio>
+            </div>
+        </div>
+
+        <div class="cyber-border" style="margin-top: 30px;">
+            <h2>SYSTEM STATUS</h2>
+            <div class="stats">
+                <div>▼ CPU Load: 42%</div>
+                <div>▼ Network: Stable</div>
+                <div>▼ Memory: 64%</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Todo List Functionality
+        const todoInput = document.querySelector('input');
+        const todoList = document.getElementById('todo-items');
+
+        todoInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && todoInput.value.trim()) {
+                const li = document.createElement('li');
+                li.className = 'todo-item';
+                li.innerHTML = `
+                    ${todoInput.value}
+                    <button style="background: #ff003310; border: 1px solid #ff0033; color: white;">×</button>
+                `;
+                li.querySelector('button').addEventListener('click', () => li.remove());
+                todoList.appendChild(li);
+                todoInput.value = '';
+            }
+        });
+
+        // Music Player Controls
+        const player = document.getElementById('player');
+        document.querySelector('button').addEventListener('click', () => {
+            player.paused ? player.play() : player.pause();
+        });
+    </script>
+</body>
+</html>
