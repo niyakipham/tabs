@@ -1,0 +1,217 @@
+/* style.css */
+:root {
+    --primary: #00f9ff;
+    --secondary: #ff00aa;
+    --bg-dark: #080820;
+    --bg-darker: #050510;
+    --text: #e0e0ff;
+    --accent: #2bffd7;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Rajdhani', 'Orbitron', sans-serif;
+    background-color: var(--bg-darker);
+    color: var(--text);
+    overflow: hidden;
+    height: 100vh;
+    position: relative;
+}
+
+.cyber-grid {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(rgba(0, 249, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 249, 255, 0.04) 1px, transparent 1px);
+    background-size: 50px 50px;
+    z-index: 0;
+}
+
+.asymmetrical-layout {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    grid-template-rows: auto auto 1fr;
+    gap: 30px;
+    padding: 40px;
+    height: 100vh;
+    z-index: 1;
+}
+
+.time-display {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.time-display h1 {
+    font-size: 6rem;
+    letter-spacing: -2px;
+    line-height: 1;
+    color: var(--primary);
+    text-shadow: 0 0 10px rgba(0, 249, 255, 0.5);
+    margin-bottom: 10px;
+    font-weight: 700;
+    position: relative;
+}
+
+.time-display #date {
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--text);
+    opacity: 0.7;
+    font-size: 1.1rem;
+    position: relative;
+}
+
+.search-bar {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    position: relative;
+}
+
+.cyber-input {
+    width: 100%;
+    padding: 15px 20px;
+    background: rgba(0, 0, 60, 0.2);
+    border: 2px solid rgba(0, 249, 255, 0.3);
+    color: white;
+    font-size: 1.2rem;
+    font-family: 'Rajdhani';
+    font-weight: bold;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.cyber-input:hover,
+.cyber-input:focus {
+    box-shadow: 0 0 20px rgba(0, 249, 255, 0.2);
+    border-color: var(--primary);
+}
+
+.tech-icons {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    gap: 10px;
+}
+
+.icon {
+    background: rgba(0, 249, 255, 0.1);
+    padding: 5px;
+    opacity: 0.6;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.icon:hover {
+    opacity: 1;
+    background: rgba(0, 249, 255, 0.3);
+}
+
+.todo-panel {
+    grid-column: 2 / 3;
+    grid-row: 1 / 4;
+    border-left: 3px solid var(--secondary);
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.todo-panel h2 {
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+    font-size: 1.4rem;
+    display: flex;
+    justify-content: space-between;
+    color: var(--accent);
+}
+
+.symbol {
+    color: var(--secondary);
+}
+
+#todo-list {
+    list-style-type: none;
+    margin-bottom: 20px;
+    flex-grow: 1;
+    max-height: 40vh;
+    overflow-y: auto;
+}
+
+#todo-list li {
+    padding: 8px 0;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 0, 213, 0.1);
+}
+
+#todo-list input[type="checkbox"] {
+    margin-right: 10px;
+    accent-color: var(--primary);
+}
+
+.tiny-input {
+    padding: 8px 12px;
+    background: rgba(87, 255, 243, 0.05);
+    border: 1px solid rgba(0, 249, 255, 0.2);
+    font-family: 'Rajdhani';
+    width: 100%;
+    color: white;
+}
+
+.media-control {
+    grid-column: 1 / 2;
+    grid-row: 3 / 4;
+    width: 80%;
+}
+
+.media-control h2 {
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.player {
+    background: rgba(1, 8, 47, 0.3);
+    padding: 20px;
+    border: 2px solid rgba(187, 255, 246, 0.1);
+    box-shadow: 0 0 30px rgba(16, 57, 139, 0.2);
+}
+
+.progress {
+    margin-top: 10px;
+    height: 3px;
+    background: var(--bg-dark);
+}
+
+.progress-bar {
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, var(--secondary), var(--primary));
+    animation: progress-animate 2s infinite alternate;
+}
+
+.song-info {
+    margin-bottom: 10px;
+}
+
+.glitch-text {
+    animation: glitch-effect 5s infinite ease-in-out;
+}
+
+.btn {
+    background: transparent;
+    color: var(--text);
+    border: none;
+    font-size: 1.
