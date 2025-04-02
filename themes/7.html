@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Default Tab - Modern Style</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: #0a0a0a;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: left;
+            padding: 50px 0;
+            overflow: hidden;
+        }
+
+        .header h1 {
+            font-size: 5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            position: relative;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+        }
+
+        .header h1::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #0ff;
+        }
+
+        .todo-section {
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .todo-input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        .todo-input:focus {
+            outline: 2px solid #0ff;
+        }
+
+        .todo-list {
+            list-style: none;
+        }
+
+        .todo-item {
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            margin-bottom: 10px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .todo-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        button {
+            padding: 12px 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .audio-player {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .audio-player audio {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .symbol {
+            font-size: 3rem;
+            margin: 20px;
+            color: #0ff;
+        }
+
+        @keyframes glitch {
+            2%, 64% {
+                transform: translate(2px,0) skew(0deg);
+            }
+            4%, 60% {
+                transform: translate(-2px,0) skew(0deg);
+            }
+            62% {
+                transform: translate(0,0) skew(5deg);
+            }
+        }
+
+        .glitch {
+            animation: glitch 1s infinite;
+            text-shadow: 0 0 10px #0ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="glitch">CYBER<br>DEFAULT</h1>
+            <div class="symbol">🚀</div>
+        </div>
+
+        <div class="todo-section">
+            <input type="text" class="todo-input" placeholder="Nhập công việc mới...">
+            <ul class="todo-list">
+                <li class="todo-item">
+                    <span>Viết mã mới</span>
+                    <button class="delete-btn">Xóa</button>
+                </li>
+                <li class="todo-item">
+                    <span>Thiết kế giao diện</span>
+                    <button class="delete-btn">Xóa</button>
+                </li>
+                <li class="todo-item">
+                    <span>Research công nghệ</span>
+                    <button class="delete-btn">Xóa</button>
+                </li>
+            </ul>
+            <div class="controls">
+                <button class="add-btn">Thêm</button>
+                <button class="clear-btn">Xóa tất cả</button>
+            </div>
+        </div>
+
+        <div class="audio-player">
+            <audio autoplay>
+                <source src="your-background-music.mp3" type="audio/mpeg">
+            </audio>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const todoInput = document.querySelector('.todo-input');
+            const todoList = document.querySelector('.todo-list');
+            const addBtn = document.querySelector('.add-btn');
+            const clearBtn = document.querySelector('.clear-btn');
+
+            addBtn.addEventListener('click', function() {
+                const text = todoInput.value;
+                if (text.trim() !== '') {
+                    const li = document.createElement('li');
+                    li.className = 'todo-item';
+                    li.innerHTML = `
+                        <span>${text}</span>
+                        <button class="delete-btn">Xóa</button>
+                    `;
+                    todoList.appendChild(li);
+                    todoInput.value = '';
+                }
+            });
+
+            clearBtn.addEventListener('click', function() {
+                todoList.innerHTML = '';
+            });
+
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.parentElement.remove();
+                });
+            });
+        });
+    </script>
+</body>
+</html>
