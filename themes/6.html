@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEO-HOMEPAGE</title>
+    <style>
+        :root {
+            --primary: #00f3ff;
+            --secondary: #ff0066;
+            --bg: #0a0a12;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Bebas Neue', sans-serif;
+        }
+
+        body {
+            background: var(--bg);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Glitch Effect */
+        @keyframes glitch {
+            0% { text-shadow: 4px 0 var(--primary), -4px 0 var(--secondary); }
+            100% { text-shadow: -4px 0 var(--primary), 4px 0 var(--secondary); }
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 2rem;
+            padding: 2rem;
+            border: 2px solid;
+            border-image: linear-gradient(45deg, var(--primary), var(--secondary)) 1;
+        }
+
+        /* Asymmetric Layout */
+        .main-content {
+            transform: rotate(-2deg);
+            margin-top: 4rem;
+        }
+
+        .sidebar {
+            border-left: 3px solid var(--primary);
+            padding-left: 2rem;
+            transform: skewX(-10deg);
+        }
+
+        /* Todo List */
+        .todo-container {
+            background: linear-gradient(145deg, #0f0f1a 0%, #1a1a2f 100%);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
+        }
+
+        .todo-input {
+            background: transparent;
+            border: 1px solid var(--primary);
+            padding: 0.8rem;
+            color: white;
+            width: 70%;
+            margin-bottom: 1rem;
+        }
+
+        /* Music Player */
+        .music-player {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #0f0f1a;
+            padding: 1rem;
+            border-radius: 15px;
+            border: 1px solid var(--secondary);
+        }
+
+        /* Futuristic Elements */
+        .cyber-border {
+            position: relative;
+            padding: 1rem;
+        }
+
+        .cyber-border::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 2px solid var(--primary);
+            clip-path: polygon(0 0, 100% 0, 100% 75%, 95% 85%, 85% 75%, 0 75%);
+        }
+
+        /* Anime-style Icons */
+        .icon {
+            width: 40px;
+            height: 40px;
+            filter: drop-shadow(0 0 5px var(--primary));
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="main-content">
+            <h1 class="cyber-border" style="animation: glitch 0.3s infinite alternate;">NEO-DASH</h1>
+            
+            <!-- Clock Widget -->
+            <div class="cyber-border" id="clock"></div>
+
+            <!-- Todo List -->
+            <div class="todo-container">
+                <h2>MISSION CONTROL</h2>
+                <input type="text" class="todo-input" placeholder="+ Add Task">
+                <ul id="todo-list"></ul>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <!-- Quick Links -->
+            <div class="cyber-border">
+                <h2>QUICK ACCESS</h2>
+                <div class="icon">⚡</div>
+                <div class="icon">🔗</div>
+                <div class="icon">🎮</div>
+            </div>
+
+            <!-- Music Player -->
+            <div class="music-player">
+                <div class="cyber-border">
+                    <h3>NOW PLAYING</h3>
+                    <audio controls id="player">
+                        <source src="your-music-file.mp3" type="audio/mpeg">
+                    </audio>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Real-time Clock
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('clock').innerHTML = 
+                `${now.getHours().toString().padStart(2, '0')}:
+                 ${now.getMinutes().toString().padStart(2, '0')}:
+                 ${now.getSeconds().toString().padStart(2, '0')}`;
+        }
+        setInterval(updateClock, 1000);
+
+        // Todo List
+        const todoInput = document.querySelector('.todo-input');
+        const todoList = document.getElementById('todo-list');
+
+        todoInput.addEventListener('keypress', (e) => {
+            if(e.key === 'Enter' && todoInput.value.trim()) {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <input type="checkbox">
+                    <span>${todoInput.value}</span>
+                    <button class="delete-btn">✖</button>
+                `;
+                todoList.appendChild(li);
+                todoInput.value = '';
+            }
+        });
+
+        // Music Player Control
+        const player = document.getElementById('player');
+        player.volume = 0.3;
+    </script>
+</body>
+</html>
