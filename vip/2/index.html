@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS START</title>
+    <style>
+        :root {
+            --primary: #00f7ff;
+            --secondary: #ff00aa;
+            --bg-dark: #0a0a14;
+            --bg-light: #1a1a2e;
+            --text: #e0e0e0;
+            --glow: 0 0 10px var(--primary), 0 0 20px rgba(0, 247, 255, 0.3);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Rajdhani', 'Orbitron', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(0, 247, 255, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 80% 70%, rgba(255, 0, 170, 0.05) 0%, transparent 20%);
+        }
+        
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            grid-template-rows: auto 1fr;
+            gap: 2rem;
+            padding: 2rem;
+            height: 100vh;
+        }
+        
+        /* Header with glitch effect */
+        .header {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(0, 247, 255, 0.3);
+            position: relative;
+        }
+        
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            box-shadow: var(--glow);
+        }
+        
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 2.5rem;
+            color: var(--primary);
+            text-shadow: var(--glow);
+            letter-spacing: 2px;
+            position: relative;
+        }
+        
+        .logo::before, .logo::after {
+            content: 'NEXUS';
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        
+        .logo::before {
+            color: var(--secondary);
+            z-index: -1;
+            animation: glitch1 2.5s infinite;
+        }
+        
+        .logo::after {
+            color: var(--primary);
+            z-index: -2;
+            animation: glitch2 2.5s infinite;
+        }
+        
+        .time-date {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 500;
+            text-align: right;
+        }
+        
+        .time {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        .date {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+        
+        /* Quick Links Section */
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 1rem;
+            align-content: start;
+        }
+        
+        .link-card {
+            background: rgba(26, 26, 46, 0.7);
+            border: 1px solid rgba(0, 247, 255, 0.1);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .link-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 247, 255, 0.2);
+            border-color: var(--primary);
+        }
+        
+        .link-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                transparent, transparent, transparent,
+                rgba(0, 247, 255, 0.1), transparent
+            );
+            transform: rotate(30deg);
+            transition: all 0.6s ease;
+        }
+        
+        .link-card:hover::before {
+            left: 100%;
+        }
+        
+        .link-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .link-title {
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        
+        /* Todo List Section */
+        .todo-section {
+            background: rgba(26, 26, 46, 0.7);
+            border: 1px solid rgba(0, 247, 255, 0.1);
+            border-radius: 8px;
+            padding: 1.5rem;
+            backdrop-filter: blur(5px);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--primary), transparent);
+            margin-left: 1rem;
+        }
+        
+        .todo-form {
+            display: flex;
+            margin-bottom: 1rem;
+        }
+        
+        .todo-input {
+            flex: 1;
+            padding: 0.7rem;
+            background: rgba(10, 10, 20, 0.8);
+            border: 1px solid rgba(0, 247, 255, 0.3);
+            border-radius: 4px 0 0 4px;
+            color: var(--text);
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 500;
+        }
+        
+        .todo-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 5px rgba(0, 247, 255, 0.5);
+        }
+        
+        .todo-btn {
+            padding: 0 1rem;
+            background: var(--primary);
+            color: var(--bg-dark);
+            border: none;
+            border-radius: 0 4px 4px 0;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .todo-btn:hover {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .todo-list {
+            list-style: none;
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+        
+        .todo-item {
+            display: flex;
+            align-items: center;
+            padding: 0.7rem;
+            margin-bottom: 0.5rem;
+            background: rgba(10, 10, 20, 0.5);
+            border-radius: 4px;
+            border-left: 3px solid var(--primary);
+            transition: all 0.3s ease;
+        }
+        
+        .todo-item:hover {
+            background: rgba(10, 10, 20, 0.8);
+            transform: translateX(5px);
+        }
+        
+        .todo-text {
+            flex: 1;
+            font-weight: 500;
+        }
+        
+        .todo-completed {
+            text-decoration: line-through;
+            opacity: 0.6;
+            border-left-color: var(--secondary);
+        }
+        
+        .todo-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .todo-actions button {
+            background: none;
+            border: none;
+            color: var(--text);
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+        
+        .todo-actions button:hover {
+            color: var(--primary);
+            transform: scale(1.1);
+        }
+        
+        /* Music Player */
+        .music-player {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(0, 247, 255, 0.2);
+        }
+        
+        .player-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+        }
+        
+        .play-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: var(--bg-dark);
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .play-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 10px var(--primary);
+        }
+        
+        .track-info {
+            flex: 1;
+            margin: 0 1rem;
+        }
+        
+        .track-name {
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+        
+        .track-artist {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+        
+        .progress-container {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            margin-top: 0.5rem;
+            cursor: pointer;
+        }
+        
+        .progress {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 2px;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+        
+        /* Futuristic decorations */
+        .futuristic-element {
+            position: absolute;
+            pointer-events: none;
+        }
+        
+        .hexagon {
+            width: 100px;
+            height: 57.74px;
+            background: rgba(0, 247, 255, 0.05);
+            position: relative;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        }
+        
+        .hexagon::before {
+            content: '';
+            position: absolute;
+            top: 1px;
+            left: 1px;
+            right: 1px;
+            bottom: 1px;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            background: transparent;
+            border: 1px solid rgba(0, 247, 255, 0.2);
+        }
+        
+        /* Glitch animations */
+        @keyframes glitch1 {
+            0% { transform: translate(0); }
+            20% { transform: translate(-3px, 3px); }
+            40% { transform: translate(-3px, -3px); }
+            60% { transform: translate(3px, 3px); }
+            80% { transform: translate(3px, -3px); }
+            100% { transform: translate(0); }
+        }
+        
+        @keyframes glitch2 {
+            0% { transform: translate(0); }
+            20% { transform: translate(3px, -3px); }
+            40% { transform: translate(3px, 3px); }
+            60% { transform: translate(-3px, -3px); }
+            80% { transform: translate(-3px, 3px); }
+            100% { transform: translate(0); }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto 1fr;
+            }
+            
+            .quick-links {
+                grid-row: 2;
+            }
+            
+            .todo-section {
+                grid-row: 3;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header with time/date -->
+        <header class="header">
+            <div class="logo">NEXUS</div>
+            <div class="time-date">
+                <div class="time" id="time">00:00:00</div>
+                <div class="date" id="date">Monday, January 1, 2023</div>
+            </div>
+        </header>
+        
+        <!-- Quick Links Section -->
+        <section class="quick-links">
+            <div class="link-card">
+                <div class="link-icon"><i class="fas fa-envelope"></i></div>
+                <div class="link-title">Email</div>
+            </div>
+            <div class="link-card">
+                <div class="link-icon"><i class="fas fa-calendar-alt"></i></div>
+                <div class="link-title">Calendar</div>
+            </div>
+            <div class="link-card">
+                <div class="link-icon"><i class="fas fa-cloud"></i></div>
+                <div class="link-title">Drive</div>
+            </div>
+            <div class="link-card">
+                <div class="link-icon"><i class="fas fa-music"></i></div>
+                <div class="link-title">Music</div>
+            </div>
+            <div class="link-card">
+                <div class="link-icon"><i class="fas fa-video"></i></div>
+                <div class="link-title">Stream</div>
+            </div>
+            <div class="link-card">
+                <div class="link-icon"><i class="fas fa-code"></i></div>
+                <div class="link-title">Dev</div>
+            </div>
+            <div class="link-card">
+                <div class="link-icon"><i class="fas fa-gamepad"></i></div>
+                <div class="link-title">Games</div>
+            </div>
+            <div class="link-card">
+                <div class="link-icon"><i class="fas fa-newspaper"></i></div>
+                <div class="link-title">News</div>
+            </div>
+        </section>
+        
+        <!-- Todo List and Music Player Section -->
+        <section class="todo-section">
+            <h2 class="section-title">
+                <i class="fas fa-tasks" style="margin-right: 0.5rem;"></i> TASKS
+            </h2>
+            
+            <form class="todo-form" id="todo-form">
+                <input type="text" class="todo-input" id="todo-input" placeholder="Add a new task..." required>
+                <button type="submit" class="todo-btn">ADD</button>
+            </form>
+            
+            <ul class="todo-list" id="todo-list">
+                <!-- Todo items will be added here dynamically -->
+            </ul>
+            
+            <div class="music-player">
+                <h2 class="section-title">
+                    <i class="fas fa-music" style="margin-right: 0.5rem;"></i> NOW PLAYING
+                </h2>
+                
+                <div class="player-controls">
+                    <button class="play-btn" id="play-btn">
+                        <i class="fas fa-play" id="play-icon"></i>
+                    </button>
+                    
+                    <div class="track-info">
+                        <div class="track-name" id="track-name">Future Waves</div>
+                        <div class="track-artist" id="track-artist">Synth Horizon</div>
+                        <div class="progress-container" id="progress-container">
+                            <div class="progress" id="progress"></div>
+                        </div>
+                    </div>
+                    
+                    <button class="play-btn" id="next-btn" style="background: var(--bg-light); color: var(--primary); width: 30px; height: 30px;">
+                        <i class="fas fa-step-forward"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Futuristic decorative elements -->
+    <div class="futuristic-element" style="top: 10%; right: 5%; transform: rotate(15deg);">
+        <div class="hexagon"></div>
+    </div>
+    
+    <div class="futuristic-element" style="bottom: 15%; left: 8%; transform: rotate(-10deg);">
+        <div class="hexagon"></div>
+    </div>
+    
+    <script>
+        // Time and Date
+        function updateTime() {
+            const now = new Date();
+            
+            // Time
+            const timeElement = document.getElementById('time');
+            const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+            timeElement.textContent = now.toLocaleTimeString(undefined, timeOptions);
+            
+            // Date
+            const dateElement = document.getElementById('date');
+            const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            dateElement.textContent = now.toLocaleDateString(undefined, dateOptions);
+        }
+        
+        setInterval(updateTime, 1000);
+        updateTime();
+        
+        // Todo List Functionality
+        const todoForm = document.getElementById('todo-form');
+        const todoInput = document.getElementById('todo-input');
+        const todoList = document.getElementById('todo-list');
+        
+        // Load saved todos from localStorage
+        let todos = JSON.parse(localStorage.getItem('todos')) || [];
+        
+        function renderTodos() {
+            todoList.innerHTML = '';
+            
+            todos.forEach((todo, index) => {
+                const todoItem = document.createElement('li');
+                todoItem.className = `todo-item ${todo.completed ? 'todo-completed' : ''}`;
+                
+                todoItem.innerHTML = `
+                    <span class="todo-text">${todo.text}</span>
+                    <div class="todo-actions">
+                        <button class="complete-btn" data-id="${index}">
+                            <i class="fas fa-${todo.completed ? 'undo' : 'check'}"></i>
+                        </button>
+                        <button class="delete-btn" data-id="${index}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                
+                todoList.appendChild(todoItem);
+            });
+        }
+        
+        function addTodo(e) {
+            e.preventDefault();
+            
+            const text = todoInput.value.trim();
+            if (text) {
+                todos.push({ text, completed: false });
+                saveTodos();
+                renderTodos();
+                todoInput.value = '';
+            }
+        }
+        
+        function toggleComplete(e) {
+            if (e.target.classList.contains('complete-btn') || e.target.parentElement.classList.contains('complete-btn')) {
+                const btn = e.target.classList.contains('complete-btn') ? e.target : e.target.parentElement;
+                const id = btn.getAttribute('data-id');
+                todos[id].completed = !todos[id].completed;
+                saveTodos();
+                renderTodos();
+            }
+        }
+        
+        function deleteTodo(e) {
+            if (e.target.classList.contains('delete-btn') || e.target.parentElement.classList.contains('delete-btn')) {
+                const btn = e.target.classList.contains('delete-btn') ? e.target : e.target.parentElement;
+                const id = btn.getAttribute('data-id');
+                todos.splice(id, 1);
+                saveTodos();
+                renderTodos();
+            }
+        }
+        
+        function saveTodos() {
+            localStorage.setItem('todos', JSON.stringify(todos));
+        }
+        
+        todoForm.addEventListener('submit', addTodo);
+        todoList.addEventListener('click', toggleComplete);
+        todoList.addEventListener('click', deleteTodo);
+        
+        renderTodos();
+        
+        // Music Player Functionality
+        const playBtn = document.getElementById('play-btn');
+        const playIcon = document.getElementById('play-icon');
+        const nextBtn = document.getElementById('next-btn');
+        const progressContainer = document.getElementById('progress-container');
+        const progress = document.getElementById('progress');
+        const trackName = document.getElementById('track-name');
+        const trackArtist = document.getElementById('track-artist');
+        
+        // Sample playlist
+        const playlist = [
+            {
+                name: "Neon Dreams",
+                artist: "Cyber Wave",
+                src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+            },
+            {
+                name: "Future Waves",
+                artist: "Synth Horizon",
+                src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"
+            },
+            {
+                name: "Digital Sunrise",
+                artist: "Vector Lights",
+                src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"
+            }
+        ];
+        
+        let currentTrack = 0;
+        let audio = new Audio(playlist[currentTrack].src);
+        let isPlaying = false;
+        
+        function loadTrack() {
+            audio.src = playlist[currentTrack].src;
+            trackName.textContent = playlist[currentTrack].name;
+            trackArtist.textContent = playlist[currentTrack].artist;
+            
+            if (isPlaying) {
+                audio.play();
+                playIcon.className = 'fas fa-pause';
+            }
+        }
+        
+        function playPause() {
+            if (isPlaying) {
+                audio.pause();
+                playIcon.className = 'fas fa-play';
+            } else {
+                audio.play();
+                playIcon.className = 'fas fa-pause';
+            }
+            isPlaying = !isPlaying;
+        }
+        
+        function nextTrack() {
+            currentTrack = (currentTrack + 1) % playlist.length;
+            loadTrack();
+        }
+        
+        function updateProgress() {
+            const { duration, currentTime } = audio;
+            const progressPercent = (currentTime / duration) * 100;
+            progress.style.width = `${progressPercent}%`;
+        }
+        
+        function setProgress(e) {
+            const width = this.clientWidth;
+            const clickX = e.offsetX;
+            const duration = audio.duration;
+            audio.currentTime = (clickX / width) * duration;
+        }
+        
+        playBtn.addEventListener('click', playPause);
+        nextBtn.addEventListener('click', nextTrack);
+        audio.addEventListener('timeupdate', updateProgress);
+        progressContainer.addEventListener('click', setProgress);
+        audio.addEventListener('ended', nextTrack);
+        
+        // Initialize
+        loadTrack();
+    </script>
+</body>
+</html>
