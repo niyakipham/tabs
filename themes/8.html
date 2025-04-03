@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS | Start</title>
+    <style>
+        :root {
+            --primary: #00f0ff;
+            --secondary: #ff00aa;
+            --bg: #0a0a12;
+            --card-bg: #151520;
+            --text: #e0e0e0;
+            --glitch: 0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Rajdhani', 'Orbitron', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+            background-image: 
+                radial-gradient(circle at 75% 30%, rgba(0, 240, 255, 0.05) 0%, transparent 25%),
+                radial-gradient(circle at 25% 70%, rgba(255, 0, 170, 0.05) 0%, transparent 25%);
+        }
+        
+        @font-face {
+            font-family: 'Rajdhani';
+            src: url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&display=swap');
+        }
+        
+        @font-face {
+            font-family: 'Orbitron';
+            src: url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 2.5rem;
+            letter-spacing: -1px;
+            color: var(--primary);
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+            position: relative;
+            transform: skewX(-10deg);
+        }
+        
+        .logo::after {
+            content: '_';
+            animation: blink 1s infinite step-end;
+            color: var(--secondary);
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        .date-time {
+            text-align: right;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 500;
+        }
+        
+        .time {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        
+        .date {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+        
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            flex-grow: 1;
+        }
+        
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        
+        .card:nth-child(1) {
+            grid-column: 1 / 2;
+            grid-row: 1 / 3;
+        }
+        
+        .card:nth-child(2) {
+            grid-column: 2 / 3;
+            grid-row: 1 / 2;
+        }
+        
+        .card:nth-child(3) {
+            grid-column: 2 / 3;
+            grid-row: 2 / 3;
+        }
+        
+        .card-title {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .card-title svg {
+            margin-right: 0.5rem;
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+        
+        .todo-list {
+            list-style: none;
+        }
+        
+        .todo-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .todo-item:last-child {
+            border-bottom: none;
+        }
+        
+        .todo-check {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--primary);
+            border-radius: 4px;
+            margin-right: 0.75rem;
+            position: relative;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        
+        .todo-check:checked {
+            background-color: var(--primary);
+        }
+        
+        .todo-check:checked::after {
+            content: '✓';
+            position: absolute;
+            color: var(--bg);
+            font-size: 12px;
+            font-weight: bold;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .todo-text {
+            flex-grow: 1;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 500;
+        }
+        
+        .todo-check:checked + .todo-text {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+        
+        .add-todo {
+            display: flex;
+            margin-top: 1rem;
+        }
+        
+        .todo-input {
+            flex-grow: 1;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px 0 0 6px;
+            padding: 0.5rem 1rem;
+            color: var(--text);
+            font-family: 'Rajdhani', sans-serif;
+            outline: none;
+        }
+        
+        .todo-input:focus {
+            border-color: var(--primary);
+        }
+        
+        .add-btn {
+            background-color: var(--primary);
+            color: var(--bg);
+            border: none;
+            border-radius: 0 6px 6px 0;
+            padding: 0 1rem;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .add-btn:hover {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .music-player {
+            width: 100%;
+            height: 80px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+        
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+        
+        .link-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text);
+            transition: all 0.2s;
+            padding: 1rem 0.5rem;
+            border-radius: 8px;
+        }
+        
+        .link-item:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            transform: translateY(-3px);
+        }
+        
+        .link-icon {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 0.5rem;
+            background-color: var(--primary);
+            mask-size: contain;
+            mask-position: center;
+            mask-repeat: no-repeat;
+            -webkit-mask-size: contain;
+            -webkit-mask-position: center;
+            -webkit-mask-repeat: no-repeat;
+        }
+        
+        .link-label {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        
+        .glitch-effect {
+            position: relative;
+        }
+        
+        .glitch-effect::before,
+        .glitch-effect::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.8;
+        }
+        
+        .glitch-effect::before {
+            color: var(--primary);
+            animation: glitch 3s infinite linear alternate-reverse;
+            clip-path: polygon(0 20%, 100% 20%, 100% 30%, 0 30%);
+        }
+        
+        .glitch-effect::after {
+            color: var(--secondary);
+            animation: glitch 2s infinite linear alternate-reverse;
+            clip-path: polygon(0 60%, 100% 60%, 100% 70%, 0 70%);
+        }
+        
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-3px, 3px); }
+            40% { transform: translate(-3px, -3px); }
+            60% { transform: translate(3px, 3px); }
+            80% { transform: translate(3px, -3px); }
+            100% { transform: translate(0); }
+        }
+        
+        .tech-icon {
+            position: absolute;
+            opacity: 0.03;
+            z-index: -1;
+        }
+        
+        .tech-icon:nth-child(1) {
+            top: 10%;
+            right: 5%;
+            font-size: 8rem;
+            transform: rotate(15deg);
+        }
+        
+        .tech-icon:nth-child(2) {
+            bottom: 15%;
+            left: 5%;
+            font-size: 6rem;
+            transform: rotate(-10deg);
+        }
+        
+        .corner-decoration {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border: 2px solid var(--primary);
+            opacity: 0.5;
+        }
+        
+        .corner-decoration.top-left {
+            top: 0;
+            left: 0;
+            border-right: none;
+            border-bottom: none;
+            border-radius: 8px 0 0 0;
+        }
+        
+        .corner-decoration.top-right {
+            top: 0;
+            right: 0;
+            border-left: none;
+            border-bottom: none;
+            border-radius: 0 8px 0 0;
+        }
+        
+        .corner-decoration.bottom-left {
+            bottom: 0;
+            left: 0;
+            border-right: none;
+            border-top: none;
+            border-radius: 0 0 0 8px;
+        }
+        
+        .corner-decoration.bottom-right {
+            bottom: 0;
+            right: 0;
+            border-left: none;
+            border-top: none;
+            border-radius: 0 0 8px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .card:nth-child(1),
+            .card:nth-child(2),
+            .card:nth-child(3) {
+                grid-column: auto;
+                grid-row: auto;
+            }
+            
+            .quick-links {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="logo glitch-effect" data-text="NEXUS">NEXUS</h1>
+        <div class="date-time">
+            <div class="time" id="time">00:00:00</div>
+            <div class="date" id="date">January 1, 2023</div>
+        </div>
+    </header>
+    
+    <main class="main-grid">
+        <div class="card">
+            <div class="corner-decoration top-left"></div>
+            <div class="corner-decoration bottom-right"></div>
+            <h2 class="card-title">
+                <svg viewBox="0 0 24 24">
+                    <path d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z" />
+                </svg>
+                TASKS
+            </h2>
+            <ul class="todo-list" id="todo-list">
+                <li class="todo-item">
+                    <input type="checkbox" class="todo-check" id="todo-1">
+                    <label for="todo-1" class="todo-text">Customize your start page</label>
+                </li>
+                <li class="todo-item">
+                    <input type="checkbox" class="todo-check" id="todo-2">
+                    <label for="todo-2" class="todo-text">Add your favorite links</label>
+                </li>
+                <li class="todo-item">
+                    <input type="checkbox" class="todo-check" id="todo-3">
+                    <label for="todo-3" class="todo-text">Set as browser homepage</label>
+                </li>
+            </ul>
+            <div class="add-todo">
+                <input type="text" class="todo-input" id="todo-input" placeholder="Add a new task...">
+                <button class="add-btn" id="add-btn">+</button>
+            </div>
+            <div class="tech-icon">⚙️</div>
+            <div class="tech-icon">🔋</div>
+        </div>
+        
+        <div class="card">
+            <div class="corner-decoration top-right"></div>
+            <div class="corner-decoration bottom-left"></div>
+            <h2 class="card-title">
+                <svg viewBox="0 0 24 24">
+                    <path d="M3.9,12C3.9,10.29 5.29,8.9 7,8.9H11V7H7A5,5 0 0,0 2,12A5,5 0 0,0 7,17H11V15.1H7C5.29,15.1 3.9,13.71 3.9,12M8,13H16V11H8V13M17,7H13V8.9H17C18.71,8.9 20.1,10.29 20.1,12C20.1,13.71 18.71,15.1 17,15.1H13V17H17A5,5 0 0,0 22,12A5,5 0 0,0 17,7Z" />
+                </svg>
+                MUSIC
+            </h2>
+            <div class="music-player">
+                <iframe width="100%" height="80" src="https://www.youtube.com/embed/5L9z63AwVsw?autoplay=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="tech-icon">🎵</div>
+        </div>
+        
+        <div class="card">
+            <div class="corner-decoration top-left"></div>
+            <div class="corner-decoration bottom-right"></div>
+            <h2 class="card-title">
+                <svg viewBox="0 0 24 24">
+                    <path d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z" />
+                </svg>
+                QUICK LINKS
+            </h2>
+            <div class="quick-links">
+                <a href="https://google.com" class="link-item" target="_blank">
+                    <div class="link-icon" style="-webkit-mask-image: url('https://www.google.com/favicon.ico');"></div>
+                    <div class="link-label">Google</div>
+                </a>
+                <a href="https://youtube.com" class="link-item" target="_blank">
+                    <div class="link-icon" style="-webkit-mask-image: url('https://www.youtube.com/favicon.ico');"></div>
+                    <div class="link-label">YouTube</div>
+                </a>
+                <a href="https://github.com" class="link-item" target="_blank">
+                    <div class="link-icon" style="-webkit-mask-image: url('https://github.com/favicon.ico');"></div>
+                    <div class="link-label">GitHub</div>
+                </a>
+                <a href="https://twitter.com" class="link-item" target="_blank">
+                    <div class="link-icon" style="-webkit-mask-image: url('https://twitter.com/favicon.ico');"></div>
+                    <div class="link-label">Twitter</div>
+                </a>
+                <a href="https://reddit.com" class="link-item" target="_blank">
+                    <div class="link-icon" style="-webkit-mask-image: url('https://www.reddit.com/favicon.ico');"></div>
+                    <div class="link-label">Reddit</div>
+                </a>
+                <a href="https://discord.com" class="link-item" target="_blank">
+                    <div class="link-icon" style="-webkit-mask-image: url('https://discord.com/assets/favicon.ico');"></div>
+                    <div class="link-label">Discord</div>
+                </a>
+            </div>
+            <div class="tech-icon">🔗</div>
+        </div>
+    </main>
+
+    <script>
+        // Update time and date
+        function updateTime() {
+            const now = new Date();
+            
+            // Format time
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            document.getElementById('time').textContent = `${hours}:${minutes}:${seconds}`;
+            
+            // Format date
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('date').textContent = now.toLocaleDateString('en-US', options);
+        }
+        
+        // Update time immediately and then every second
+        updateTime();
+        setInterval(updateTime, 1000);
+        
+        // Todo list functionality
+        const todoList = document.getElementById('todo-list');
+        const todoInput = document.getElementById('todo-input');
+        const addBtn = document.getElementById('add-btn');
+        
+        // Add new todo item
+        function addTodo() {
+            const text = todoInput.value.trim();
+            if (text) {
+                const id = 'todo-' + Date.now();
+                
+                const li = document.createElement('li');
+                li.className = 'todo-item';
+                li.innerHTML = `
+                    <input type="checkbox" class="todo-check" id="${id}">
+                    <label for="${id}" class="todo-text">${text}</label>
+                `;
+                
+                todoList.appendChild(li);
+                todoInput.value = '';
+                
+                // Save to localStorage
+                saveTodos();
+            }
+        }
+        
+        // Add todo when button is clicked
+        addBtn.addEventListener('click', addTodo);
+        
+        // Add todo when Enter is pressed
+        todoInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                addTodo();
+            }
+        });
+        
+        // Save todos to localStorage
+        function saveTodos() {
+            const todos = [];
+            document.querySelectorAll('.todo-item').forEach(item => {
+                const checkbox = item.querySelector('.todo-check');
+                const text = item.querySelector('.todo-text').textContent;
+                todos.push({
+                    text: text,
+                    checked: checkbox.checked
+                });
+            });
+            localStorage.setItem('todos', JSON.stringify(todos));
+        }
+        
+        // Load todos from localStorage
+        function loadTodos() {
+            const todos = JSON.parse(localStorage.getItem('todos')) || [];
+            
+            // Clear existing todos (except the default ones)
+            const defaultTodos = 3; // Number of default todo items
+            while (todoList.children.length > defaultTodos) {
+                todoList.removeChild(todoList.lastChild);
+            }
+            
+            // Add saved todos
+            todos.forEach((todo, index) => {
+                // Skip the first 3 default todos when loading
+                if (index < defaultTodos) return;
+                
+                const id = 'todo-' + Date.now() + index;
+                const li = document.createElement('li');
+                li.className = 'todo-item';
+                li.innerHTML = `
+                    <input type="checkbox" class="todo-check" id="${id}" ${todo.checked ? 'checked' : ''}>
+                    <label for="${id}" class="todo-text">${todo.text}</label>
+                `;
+                
+                todoList.appendChild(li);
+            });
+        }
+        
+        // Add event listener to todo list for checkbox changes
+        todoList.addEventListener('change', (e) => {
+            if (e.target.classList.contains('todo-check')) {
+                saveTodos();
+            }
+        });
+        
+        // Load todos when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTodos();
+            
+            // Add glitch effect occasionally
+            setInterval(() => {
+                document.documentElement.style.setProperty('--glitch', Math.random() > 0.9 ? '1' : '0');
+            }, 3000);
+        });
+        
+        // Allow dropping links to create quick links
+        document.addEventListener('dragover', (e) => {
+            e.preventDefault();
+        });
+        
+        document.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const url = e.dataTransfer.getData('text/uri-list');
+            if (url) {
+                const domain = new URL(url).hostname.replace('www.', '');
+                const faviconUrl = `https://${domain}/favicon.ico`;
+                
+                // Create a new link item
+                const linkItem = document.createElement('a');
+                linkItem.className = 'link-item';
+                linkItem.href = url;
+                linkItem.target = '_blank';
+                linkItem.innerHTML = `
+                    <div class="link-icon" style="-webkit-mask-image: url('${faviconUrl}')"></div>
+                    <div class="link-label">${domain.split('.')[0]}</div>
+                `;
+                
+                // Add to quick links
+                document.querySelector('.quick-links').appendChild(linkItem);
+            }
+        });
+    </script>
+</body>
+</html>
