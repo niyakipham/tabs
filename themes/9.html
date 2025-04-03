@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Portal</title>
+    <style>
+        :root {
+            --neon-pink: #ff2a6d;
+            --neon-blue: #05d9e8;
+            --neon-purple: #d300c5;
+            --dark-bg: #0d0221;
+            --darker-bg: #05010e;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--dark-bg);
+            color: white;
+            font-family: 'Orbitron', 'Courier New', monospace;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(255, 42, 109, 0.15) 0%, transparent 20%),
+                radial-gradient(circle at 80% 70%, rgba(5, 217, 232, 0.15) 0%, transparent 20%);
+        }
+
+        @font-face {
+            font-family: 'Orbitron';
+            src: url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+        }
+
+        .container {
+            text-align: center;
+            z-index: 1;
+            width: 80%;
+            max-width: 800px;
+        }
+
+        .title {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            text-shadow: 
+                0 0 10px var(--neon-blue),
+                0 0 20px var(--neon-blue),
+                0 0 40px var(--neon-blue);
+            color: var(--neon-blue);
+            letter-spacing: 5px;
+            animation: flicker 1.5s infinite alternate;
+        }
+
+        .clock {
+            font-size: 3.5rem;
+            margin: 2rem 0;
+            text-shadow: 
+                0 0 10px var(--neon-pink),
+                0 0 20px var(--neon-pink);
+            color: var(--neon-pink);
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .search-box {
+            width: 100%;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid var(--neon-purple);
+            border-radius: 50px;
+            background-color: rgba(13, 2, 33, 0.7);
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            box-shadow: 
+                0 0 10px var(--neon-purple),
+                0 0 20px rgba(211, 0, 197, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            box-shadow: 
+                0 0 15px var(--neon-purple),
+                0 0 30px rgba(211, 0, 197, 0.5);
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 20px;
+            width: 100%;
+            margin-top: 3rem;
+        }
+
+        .grid-item {
+            background-color: rgba(5, 217, 232, 0.1);
+            border: 1px solid var(--neon-blue);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .grid-item:hover {
+            background-color: rgba(5, 217, 232, 0.2);
+            box-shadow: 0 0 15px var(--neon-blue);
+            transform: translateY(-5px);
+        }
+
+        .grid-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--neon-pink);
+        }
+
+        .grid-label {
+            font-size: 0.9rem;
+            color: var(--neon-blue);
+        }
+
+        .scanline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                rgba(5, 217, 232, 0.03) 0%,
+                rgba(5, 217, 232, 0.1) 50%,
+                rgba(5, 217, 232, 0.03) 100%
+            );
+            background-size: 100% 8px;
+            pointer-events: none;
+            animation: scanline 8s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes flicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+                text-shadow: 
+                    0 0 10px var(--neon-blue),
+                    0 0 20px var(--neon-blue),
+                    0 0 40px var(--neon-blue);
+            }
+            20%, 24%, 55% {
+                text-shadow: none;
+            }
+        }
+
+        @keyframes scanline {
+            0% {
+                background-position: 0 -50px;
+            }
+            100% {
+                background-position: 0 0;
+            }
+        }
+
+        .corner {
+            position: fixed;
+            width: 200px;
+            height: 200px;
+            border-width: 3px;
+            border-style: solid;
+            pointer-events: none;
+        }
+
+        .corner-top-left {
+            top: 20px;
+            left: 20px;
+            border-image: linear-gradient(135deg, var(--neon-pink), transparent 70%) 1;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .corner-top-right {
+            top: 20px;
+            right: 20px;
+            border-image: linear-gradient(-135deg, var(--neon-blue), transparent 70%) 1;
+            border-left: none;
+            border-bottom: none;
+        }
+
+        .corner-bottom-left {
+            bottom: 20px;
+            left: 20px;
+            border-image: linear-gradient(45deg, var(--neon-purple), transparent 70%) 1;
+            border-right: none;
+            border-top: none;
+        }
+
+        .corner-bottom-right {
+            bottom: 20px;
+            right: 20px;
+            border-image: linear-gradient(-45deg, var(--neon-blue), transparent 70%) 1;
+            border-left: none;
+            border-top: none;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            background-color: var(--neon-blue);
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: float linear infinite;
+        }
+
+        @keyframes float {
+            to {
+                transform: translateY(-100vh);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="scanline"></div>
+    <div class="particles" id="particles"></div>
+    
+    <div class="corner corner-top-left"></div>
+    <div class="corner corner-top-right"></div>
+    <div class="corner corner-bottom-left"></div>
+    <div class="corner corner-bottom-right"></div>
+
+    <div class="container">
+        <h1 class="title">NEON PORTAL</h1>
+        <div class="clock" id="clock">00:00:00</div>
+        
+        <div class="search-box">
+            <form action="https://www.google.com/search" method="GET" target="_blank">
+                <input class="search-input" type="text" name="q" placeholder="Search the grid..." autocomplete="off">
+            </form>
+        </div>
+        
+        <div class="grid">
+            <div class="grid-item" onclick="window.open('https://mail.google.com', '_blank')">
+                <div class="grid-icon">✉️</div>
+                <div class="grid-label">Mail</div>
+            </div>
+            <div class="grid-item" onclick="window.open('https://calendar.google.com', '_blank')">
+                <div class="grid-icon">📅</div>
+                <div class="grid-label">Calendar</div>
+            </div>
+            <div class="grid-item" onclick="window.open('https://drive.google.com', '_blank')">
+                <div class="grid-icon">💾</div>
+                <div class="grid-label">Drive</div>
+            </div>
+            <div class="grid-item" onclick="window.open('https://youtube.com', '_blank')">
+                <div class="grid-icon">📺</div>
+                <div class="grid-label">YouTube</div>
+            </div>
+            <div class="grid-item" onclick="window.open('https://github.com', '_blank')">
+                <div class="grid-icon">👨‍💻</div>
+                <div class="grid-label">GitHub</div>
+            </div>
+            <div class="grid-item" onclick="window.open('https://reddit.com', '_blank')">
+                <div class="grid-icon">🖥️</div>
+                <div class="grid-label">Reddit</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Update clock
+        function updateClock() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+        
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Create particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random size
+                const size = Math.random() * 3 + 1;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Random position
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.bottom = `-10px`;
+                
+                // Random animation duration
+                const duration = Math.random() * 20 + 10;
+                particle.style.animationDuration = `${duration}s`;
+                
+                // Random delay
+                particle.style.animationDelay = `${Math.random() * 10}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        createParticles();
+
+        // Focus search box on page load
+        window.onload = function() {
+            document.querySelector('.search-input').focus();
+        };
+    </script>
+</body>
+</html>
