@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Portal</title>
+    <style>
+        /* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Orbitron', 'Arial', sans-serif;
+        }
+
+        /* Body & Background */
+        body {
+            background-color: #0a0a1a;
+            color: #00ffcc;
+            overflow-x: hidden;
+            height: 100vh;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(0, 150, 255, 0.1) 0%, transparent 30%),
+                radial-gradient(circle at 80% 70%, rgba(255, 0, 150, 0.1) 0%, transparent 30%);
+        }
+
+        /* Particles Background */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            top: 0;
+            left: 0;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: auto 1fr 1fr;
+            gap: 20px;
+            height: 100vh;
+        }
+
+        /* Header */
+        header {
+            grid-column: 1 / 4;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(0, 255, 204, 0.2);
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            background: linear-gradient(90deg, #00ffcc, #0088ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
+        }
+
+        .date-display {
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+        }
+
+        /* Clock Widget */
+        .clock-widget {
+            grid-column: 1;
+            grid-row: 2;
+            background: rgba(10, 20, 30, 0.7);
+            border: 1px solid rgba(0, 255, 204, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .clock-widget:hover {
+            box-shadow: 0 0 30px rgba(0, 255, 204, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .clock-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #00ffcc;
+            display: flex;
+            align-items: center;
+        }
+
+        .clock-title i {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+
+        .clock {
+            font-size: 3.5rem;
+            font-weight: 700;
+            text-align: center;
+            letter-spacing: 3px;
+            color: #00ffcc;
+            text-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+        }
+
+        /* Weather Widget */
+        .weather-widget {
+            grid-column: 2;
+            grid-row: 2;
+            background: rgba(10, 20, 30, 0.7);
+            border: 1px solid rgba(0, 255, 204, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .weather-widget:hover {
+            box-shadow: 0 0 30px rgba(0, 255, 204, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .weather-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #00ffcc;
+            display: flex;
+            align-items: center;
+        }
+
+        .weather-title i {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+
+        .weather-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .weather-icon {
+            font-size: 4rem;
+            margin: 15px 0;
+        }
+
+        .temperature {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .weather-description {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .weather-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .detail {
+            display: flex;
+            align-items: center;
+        }
+
+        .detail i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        /* Quick Links */
+        .quick-links {
+            grid-column: 3;
+            grid-row: 2;
+            background: rgba(10, 20, 30, 0.7);
+            border: 1px solid rgba(0, 255, 204, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .quick-links:hover {
+            box-shadow: 0 0 30px rgba(0, 255, 204, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .links-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #00ffcc;
+            display: flex;
+            align-items: center;
+        }
+
+        .links-title i {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .link-item {
+            background: rgba(0, 20, 40, 0.5);
+            border: 1px solid rgba(0, 255, 204, 0.2);
+            border-radius: 8px;
+            padding: 15px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .link-item:hover {
+            background: rgba(0, 40, 80, 0.7);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 255, 204, 0.2);
+        }
+
+        .link-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #0088ff;
+        }
+
+        .link-name {
+            font-size: 0.9rem;
+        }
+
+        /* News Feed */
+        .news-feed {
+            grid-column: 1 / 3;
+            grid-row: 3;
+            background: rgba(10, 20, 30, 0.7);
+            border: 1px solid rgba(0, 255, 204, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .news-feed:hover {
+            box-shadow: 0 0 30px rgba(0, 255, 204, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .news-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #00ffcc;
+            display: flex;
+            align-items: center;
+        }
+
+        .news-title i {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+
+        .news-items {
+            height: calc(100% - 60px);
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .news-item {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(0, 255, 204, 0.1);
+        }
+
+        .news-item:last-child {
+            border-bottom: none;
+        }
+
+        .news-item-date {
+            font-size: 0.8rem;
+            color: #0088ff;
+            margin-bottom: 5px;
+        }
+
+        .news-item-title {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: #ffffff;
+        }
+
+        .news-item-desc {
+            font-size: 0.9rem;
+            color: #aaaaaa;
+            line-height: 1.4;
+        }
+
+        /* System Stats */
+        .system-stats {
+            grid-column: 3;
+            grid-row: 3;
+            background: rgba(10, 20, 30, 0.7);
+            border: 1px solid rgba(0, 255, 204, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .system-stats:hover {
+            box-shadow: 0 0 30px rgba(0, 255, 204, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .stats-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #00ffcc;
+            display: flex;
+            align-items: center;
+        }
+
+        .stats-title i {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+
+        .stats-item {
+            margin-bottom: 15px;
+        }
+
+        .stats-label {
+            font-size: 0.9rem;
+            color: #0088ff;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .stats-bar {
+            height: 8px;
+            background: rgba(0, 50, 100, 0.5);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .stats-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #00ffcc, #0088ff);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .stats-value {
+            font-size: 0.9rem;
+            margin-top: 3px;
+            text-align: right;
+            color: #00ffcc;
+        }
+
+        /* Terminal */
+        .terminal {
+            position: fixed;
+            bottom: -350px;
+            left: 0;
+            right: 0;
+            height: 350px;
+            background: rgba(5, 10, 20, 0.95);
+            border-top: 1px solid rgba(0, 255, 204, 0.3);
+            z-index: 100;
+            transition: bottom 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .terminal-header {
+            padding: 10px 15px;
+            background: rgba(0, 20, 40, 0.8);
+            border-bottom: 1px solid rgba(0, 255, 204, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .terminal-title {
+            font-size: 1rem;
+            color: #00ffcc;
+        }
+
+        .terminal-close {
+            background: none;
+            border: none;
+            color: #00ffcc;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .terminal-close:hover {
+            color: #ff5555;
+        }
+
+        .terminal-body {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #00ffcc;
+            line-height: 1.4;
+        }
+
+        .terminal-input {
+            display: flex;
+            padding: 10px 15px;
+            background: rgba(0, 20, 40, 0.8);
+            border-top: 1px solid rgba(0, 255, 204, 0.2);
+        }
+
+        .terminal-prompt {
+            color: #00ffcc;
+            margin-right: 10px;
+        }
+
+        .terminal-command {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #00ffcc;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        /* Terminal active state */
+        .terminal.active {
+            bottom: 0;
+        }
+
+        /* Terminal Toggle */
+        .terminal-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 40, 80, 0.8);
+            border: 1px solid rgba(0, 255, 204, 0.3);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 101;
+            transition: all 0.3s ease;
+        }
+
+        .terminal-toggle:hover {
+            background: rgba(0, 60, 120, 0.9);
+            transform: scale(1.1);
+        }
+
+        .terminal-toggle i {
+            font-size: 1.5rem;
+            color: #00ffcc;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: auto auto auto auto;
+            }
+
+            header {
+                grid-column: 1 / 3;
+            }
+
+            .clock-widget {
+                grid-column: 1;
+                grid-row: 2;
+            }
+
+            .weather-widget {
+                grid-column: 2;
+                grid-row: 2;
+            }
+
+            .quick-links {
+                grid-column: 1 / 3;
+                grid-row: 3;
+            }
+
+            .news-feed {
+                grid-column: 1 / 3;
+                grid-row: 4;
+            }
+
+            .system-stats {
+                grid-column: 1 / 3;
+                grid-row: 5;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto auto auto auto auto;
+            }
+
+            header {
+                grid-column: 1;
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+
+            .clock-widget {
+                grid-column: 1;
+                grid-row: 2;
+            }
+
+            .weather-widget {
+                grid-column: 1;
+                grid-row: 3;
+            }
+
+            .quick-links {
+                grid-column: 1;
+                grid-row: 4;
+            }
+
+            .news-feed {
+                grid-column: 1;
+                grid-row: 5;
+            }
+
+            .system-stats {
+                grid-column: 1;
+                grid-row: 6;
+            }
+
+            .links-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 20, 40, 0.5);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(#00ffcc, #0088ff);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(#00e6b8, #0077cc);
+        }
+
+        /* Font Awesome Icons */
+        .fa-solid, .fas {
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+        }
+
+        .fa-regular, .far {
+            font-family: "Font Awesome 6 Free";
+            font-weight: 400;
+        }
+
+        .fa-brands, .fab {
+            font-family: "Font Awesome 6 Brands";
+            font-weight: 400;
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    
+    <div class="container">
+        <header>
+            <div class="logo">Quantum Portal</div>
+            <div class="date-display" id="current-date">Loading...</div>
+        </header>
+
+        <!-- Clock Widget -->
+        <div class="clock-widget">
+            <div class="clock-title">
+                <i class="fas fa-clock"></i> Universal Time
+            </div>
+            <div class="clock" id="digital-clock">00:00:00</div>
+        </div>
+
+        <!-- Weather Widget -->
+        <div class="weather-widget">
+            <div class="weather-title">
+                <i class="fas fa-cloud-sun"></i> Weather Status
+            </div>
+            <div class="weather-info">
+                <div class="weather-icon" id="weather-icon">
+                    <i class="fas fa-question"></i>
+                </div>
+                <div class="temperature" id="temperature">--°C</div>
+                <div class="weather-description" id="weather-description">Loading weather...</div>
+                <div class="weather-details">
+                    <div class="detail">
+                        <i class="fas fa-wind"></i> <span id="wind-speed">-- km/h</span>
+                    </div>
+                    <div class="detail">
+                        <i class="fas fa-tint"></i> <span id="humidity">--%</span>
+                    </div>
+                    <div class="detail">
+                        <i class="fas fa-temperature-low"></i> <span id="feels-like">--°C</span>
+                    </div>
+                    <div class="detail">
+                        <i class="fas fa-compress-alt"></i> <span id="pressure">-- hPa</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="quick-links">
+            <div class="links-title">
+                <i class="fas fa-rocket"></i> Quantum Jump
+            </div>
+            <div class="links-grid">
+                <div class="link-item" onclick="window.open('https://www.google.com', '_blank')">
+                    <div class="link-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="link-name">Search</div>
+                </div>
+                <div class="link-item" onclick="window.open('https://mail.google.com', '_blank')">
+                    <div class="link-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="link-name">Email</div>
+                </div>
+                <div class="link-item" onclick="window.open('https://calendar.google.com', '_blank')">
+                    <div class="link-icon">
+                        <i class="fas fa-calendar"></i>
+                    </div>
+                    <div class="link-name">Calendar</div>
+                </div>
+                <div class="link-item" onclick="window.open('https://drive.google.com', '_blank')">
+                    <div class="link-icon">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <div class="link-name">Drive</div>
+                </div>
+                <div class="link-item" onclick="window.open('https://www.youtube.com', '_blank')">
+                    <div class="link-icon">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <div class="link-name">Videos</div>
+                </div>
+                <div class="link-item" onclick="window.open('https://github.com', '_blank')">
+                    <div class="link-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="link-name">Code</div>
+                </div>
+                <div class="link-item" onclick="window.open('https://www.reddit.com', '_blank')">
+                    <div class="link-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <div class="link-name">Forum</div>
+                </div>
+                <div class="link-item" onclick="window.open('https://www.netflix.com', '_blank')">
+                    <div class="link-icon">
+                        <i class="fas fa-film"></i>
+                    </div>
+                    <div class="link-name">Entertain</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- News Feed -->
+        <div class="news-feed">
+            <div class="news-title">
+                <i class="fas fa-newspaper"></i> Galactic News
+            </div>
+            <div class="news-items" id="news-container">
+                <!-- News items will be loaded here -->
+            </div>
+        </div>
+
+        <!-- System Stats -->
+        <div class="system-stats">
+            <div class="stats-title">
+                <i class="fas fa-microchip"></i> System Status
+            </div>
+            <div class="stats-item">
+                <div class="stats-label">
+                    <span>CPU Usage</span>
+                    <span id="cpu-percent">0%</span>
+                </div>
+                <div class="stats-bar">
+                    <div class="stats-progress" id="cpu-bar" style="width: 0%"></div>
+                </div>
+                <div class="stats-value" id="cpu-details">4 cores @ 2.5GHz</div>
+            </div>
+            <div class="stats-item">
+                <div class="stats-label">
+                    <span>Memory</span>
+                    <span id="memory-percent">0%</span>
+                </div>
+                <div class="stats-bar">
+                    <div class="stats-progress" id="memory-bar" style="width: 0%"></div>
+                </div>
+                <div class="stats-value" id="memory-details">4GB / 16GB</div>
+            </div>
+            <div class="stats-item">
+                <div class="stats-label">
+                    <span>Storage</span>
+                    <span id="storage-percent">0%</span>
+                </div>
+                <div class="stats-bar">
+                    <div class="stats-progress" id="storage-bar" style="width: 0%"></div>
+                </div>
+                <div class="stats-value" id="storage-details">120GB / 500GB</div>
+            </div>
+            <div class="stats-item">
+                <div class="stats-label">
+                    <span>Network</span>
+                    <span id="network-status">Offline</span>
+                </div>
+                <div class="stats-bar">
+                    <div class="stats-progress" id="network-bar" style="width: 0%"></div>
+                </div>
+                <div class="stats-value" id="network-details">Ping: -- ms</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terminal -->
+    <div class="terminal" id="terminal">
+        <div class="terminal-header">
+            <div class="terminal-title">Quantum Terminal</div>
+            <button class="terminal-close" id="terminal-close">&times;</button>
+        </div>
+        <div class="terminal-body" id="terminal-output">
+            <div>Quantum Terminal v3.1.4 - System Interface</div>
+            <div>Type 'help' for command list</div>
+            <div>&nbsp;</div>
+        </div>
+        <div class="terminal-input">
+            <span class="terminal-prompt">user@quantum:~$</span>
+            <input type="text" class="terminal-command" id="terminal-input" autocomplete="off">
+        </div>
+    </div>
+
+    <!-- Terminal Toggle -->
+    <div class="terminal-toggle" id="terminal-toggle">
+        <i class="fas fa-terminal"></i>
+    </div>
+
+    <script>
+        // Wait for DOM to load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize components
+            initClock();
+            initDate();
+            initWeather();
+            initNews();
+            initSystemStats();
+            initTerminal();
+            initParticles();
+
+            // Set random system stats (in a real app, these would come from actual system data)
+            setInterval(updateSystemStats, 3000);
+        });
+
+        // Digital Clock
+        function initClock() {
+            function updateClock() {
+                const now = new Date();
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                const seconds = String(now.getSeconds()).padStart(2, '0');
+                document.getElementById('digital-clock').textContent = `${hours}:${minutes}:${seconds}`;
+            }
+            updateClock();
+            setInterval(updateClock, 1000);
+        }
+
+        // Current Date
+        function initDate() {
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const now = new Date();
+            document.getElementById('current-date').textContent = now.toLocaleDateString('en-US', options);
+        }
+
+        // Weather Data
+        function initWeather() {
+            // In a real app, you would fetch from a weather API
+            // For demo purposes, we'll use mock data
+            const weatherData = {
+                temp: Math.floor(Math.random() * 15) + 15, // 15-30°C
+                description: ['Clear', 'Partly Cloudy', 'Cloudy', 'Rainy', 'Thunderstorm'][Math.floor(Math.random() * 5)],
+                wind: Math.floor(Math.random() * 20) + 5, // 5-25 km/h
+                humidity: Math.floor(Math.random() * 40) + 50, // 50-90%
+                feels_like: Math.floor(Math.random() * 5) + 18, // 18-23°C
+                pressure: Math.floor(Math.random() * 10) + 1010 // 1010-1020 hPa
+            };
+
+            // Set weather icon based on condition
+            const weatherIcon = document.getElementById('weather-icon');
+            let iconClass = 'fa-question';
+            
+            if (weatherData.description.includes('Clear')) {
+                iconClass = 'fa-sun';
+            } else if (weatherData.description.includes('Cloudy')) {
+                iconClass = weatherData.description.includes('Partly') ? 'fa-cloud-sun' : 'fa-cloud';
+            } else if (weatherData.description.includes('Rain')) {
+                iconClass = 'fa-cloud-rain';
+            } else if (weatherData.description.includes('Thunderstorm')) {
+                iconClass = 'fa-bolt';
+            }
+            
+            weatherIcon.innerHTML = `<i class="fas ${iconClass} pulse"></i>`;
+
+            // Update weather data
+            document.getElementById('temperature').textContent = `${weatherData.temp}°C`;
+            document.getElementById('weather-description').textContent = weatherData.description;
+            document.getElementById('wind-speed').textContent = `${weatherData.wind} km/h`;
+            document.getElementById('humidity').textContent = `${weatherData.humidity}%`;
+            document.getElementById('feels-like').textContent = `${weatherData.feels_like}°C`;
+            document.getElementById('pressure').textContent = `${weatherData.pressure} hPa`;
+        }
+
+        // News Feed
+        function initNews() {
+            const newsContainer = document.getElementById('news-container');
+            const newsItems = [
+                {
+                    date: '2023-11-15',
+                    title: 'NASA Announces Breakthrough in Quantum Communication',
+                    desc: 'Scientists have successfully transmitted quantum information across a 500-mile distance, paving the way for unhackable global networks.'
+                },
+                {
+                    date: '2023-11-14',
+                    title: 'Mars Colony Project Receives Additional Funding',
+                    desc: 'The international consortium behind the Mars colonization initiative has secured $20 billion in additional funding for phase two development.'
+                },
+                {
+                    date: '2023-11-12',
+                    title: 'AI Achieves Human-Level Performance in Creative Tasks',
+                    desc: 'New neural network architecture demonstrates ability to compose music and write fiction indistinguishable from human-created content.'
+                },
+                {
+                    date: '2023-11-10',
+                    title: 'Breakthrough in Nuclear Fusion Energy',
+                    desc: 'Researchers at the International Thermonuclear Experimental Reactor have sustained a fusion reaction for over 5 minutes, a new world record.'
+                },
+                {
+                    date: '2023-11-08',
+                    title: 'First Successful Teleportation of Complex Molecules',
+                    desc: 'Quantum physicists report the successful teleportation of molecules containing over 100 atoms between laboratories in Geneva and Singapore.'
+                }
+            ];
+
+            newsItems.forEach(item => {
+                const newsElement = document.createElement('div');
+                newsElement.className = 'news-item';
+                newsElement.innerHTML = `
+                    <div class="news-item-date">${item.date}</div>
+                    <div class="news-item-title">${item.title}</div>
+                    <div class="news-item-desc">${item.desc}</div>
+                `;
+                newsContainer.appendChild(newsElement);
+            });
+        }
+
+        // System Stats
+        function initSystemStats() {
+            // Initialize with random values
+            updateSystemStats();
+        }
+
+        function updateSystemStats() {
+            // Generate random system stats (in a real app, these would be actual system metrics)
+            const cpuUsage = Math.floor(Math.random() * 30) + 10; // 10-40%
+            const memoryUsage = Math.floor(Math.random() * 40) + 30; // 30-70%
+            const storageUsage = Math.floor(Math.random() * 50) + 20; // 20-70%
+            const networkOnline = Math.random() > 0.1; // 90% chance online
+            const ping = networkOnline ? Math.floor(Math.random() * 50) + 10 : 0; // 10-60ms if online
+
+            // Update CPU
+            document.getElementById('cpu-percent').textContent = `${cpuUsage}%`;
+            document.getElementById('cpu-bar').style.width = `${cpuUsage}%`;
+            document.getElementById('cpu-details').textContent = `${Math.floor(Math.random() * 4) + 2} cores @ ${(Math.random() * 2 + 2).toFixed(1)}GHz`;
+
+            // Update Memory
+            document.getElementById('memory-percent').textContent = `${memoryUsage}%`;
+            document.getElementById('memory-bar').style.width = `${memoryUsage}%`;
+            const totalMem = 8 + Math.floor(Math.random() * 24); // 8-32GB
+            const usedMem = Math.floor(totalMem * memoryUsage / 100);
+            document.getElementById('memory-details').textContent = `${usedMem}GB / ${totalMem}GB`;
+
+            // Update Storage
+            document.getElementById('storage-percent').textContent = `${storageUsage}%`;
+            document.getElementById('storage-bar').style.width = `${storageUsage}%`;
+            const totalStorage = 250 + Math.floor(Math.random() * 750); // 250-1000GB
+            const usedStorage = Math.floor(totalStorage * storageUsage / 100);
+            document.getElementById('storage-details').textContent = `${usedStorage}GB / ${totalStorage}GB`;
+
+            // Update Network
+            if (networkOnline) {
+                document.getElementById('network-status').textContent = 'Online';
+                document.getElementById('network-bar').style.width = '100%';
+                document.getElementById('network-bar').style.background = 'linear-gradient(90deg, #00ffcc, #0088ff)';
+                document.getElementById('network-details').textContent = `Ping: ${ping} ms`;
+            } else {
+                document.getElementById('network-status').textContent = 'Offline';
+                document.getElementById('network-bar').style.width = '0%';
+                document.getElementById('network-bar').style.background = '#ff5555';
+                document.getElementById('network-details').textContent = 'Connection lost';
+            }
+        }
+
+        // Terminal
+        function initTerminal() {
+            const terminal = document.getElementById('terminal');
+            const terminalToggle = document.getElementById('terminal-toggle');
+            const terminalClose = document.getElementById('terminal-close');
+            const terminalInput = document.getElementById('terminal-input');
+            const terminalOutput = document.getElementById('terminal-output');
+
+            // Toggle terminal visibility
+            terminalToggle.addEventListener('click', function() {
+                terminal.classList.toggle('active');
+            });
+
+            terminalClose.addEventListener('click', function() {
+                terminal.classList.remove('active');
+            });
+
+            // Terminal commands
+            const commands = {
+                help: {
+                    desc: 'Display available commands',
+                    execute: () => {
+                        addTerminalOutput('Available commands:');
+                        for (const cmd in commands) {
+                            addTerminalOutput(`  ${cmd} - ${commands[cmd].desc}`);
+                        }
+                    }
+                },
+                clear: {
+                    desc: 'Clear terminal output',
+                    execute: () => {
+                        terminalOutput.innerHTML = '';
+                    }
+                },
+                date: {
+                    desc: 'Display current date and time',
+                    execute: () => {
+                        const now = new Date();
+                        addTerminalOutput(now.toString());
+                    }
+                },
+                weather: {
+                    desc: 'Display current weather',
+                    execute: () => {
+                        const temp = document.getElementById('temperature').textContent;
+                        const desc = document.getElementById('weather-description').textContent;
+                        addTerminalOutput(`Current weather: ${desc}, ${temp}`);
+                    }
+                },
+                system: {
+                    desc: 'Display system status',
+                    execute: () => {
+                        const cpu = document.getElementById('cpu-percent').textContent;
+                        const mem = document.getElementById('memory-percent').textContent;
+                        const storage = document.getElementById('storage-percent').textContent;
+                        const network = document.getElementById('network-status').textContent;
+                        
+                        addTerminalOutput('System Status:');
+                        addTerminalOutput(`  CPU: ${cpu} usage`);
+                        addTerminalOutput(`  Memory: ${mem} used`);
+                        addTerminalOutput(`  Storage: ${storage} used`);
+                        addTerminalOutput(`  Network: ${network}`);
+                    }
+                },
+                reboot: {
+                    desc: 'Simulate system reboot',
+                    execute: () => {
+                        addTerminalOutput('Initiating system reboot...');
+                        setTimeout(() => {
+                            terminalOutput.innerHTML = '';
+                            addTerminalOutput('System reboot complete');
+                            addTerminalOutput('Quantum Terminal v3.1.4 - System Interface');
+                            addTerminalOutput('Type "help" for command list');
+                            addTerminalOutput('');
+                        }, 2000);
+                    }
+                },
+                matrix: {
+                    desc: 'Enable matrix mode (demo)',
+                    execute: () => {
+                        addTerminalOutput('Entering matrix mode...');
+                        document.body.style.backgroundColor = '#000';
+                        document.body.style.color = '#0f0';
+                        
+                        // Create matrix rain effect
+                        const chars = "01";
+                        const canvas = document.createElement('div');
+                        canvas.style.position = 'fixed';
+                        canvas.style.top = '0';
+                        canvas.style.left = '0';
+                        canvas.style.width = '100%';
+                        canvas.style.height = '100%';
+                        canvas.style.zIndex = '1000';
+                        canvas.style.pointerEvents = 'none';
+                        canvas.style.fontFamily = 'monospace';
+                        canvas.style.fontSize = '16px';
+                        canvas.style.lineHeight = '16px';
+                        canvas.style.color = '#0f0';
+                        canvas.style.backgroundColor = 'rgba(0,0,0,0.7)';
+                        document.body.appendChild(canvas);
+                        
+                        const columns = Math.floor(window.innerWidth / 16);
+                        const drops = Array(columns).fill(0);
+                        
+                        function drawMatrix() {
+                            canvas.innerHTML = '';
+                            for (let i = 0; i < drops.length; i++) {
+                                const char = chars[Math.floor(Math.random() * chars.length)];
+                                canvas.innerHTML += `<span style="position:absolute;top:${drops[i] * 16}px;left:${i * 16}px">${char}</span>`;
+                                
+                                if (drops[i] * 16 > window.innerHeight && Math.random() > 0.975) {
+                                    drops[i] = 0;
+                                }
+                                drops[i]++;
+                            }
+                        }
+                        
+                        const matrixInterval = setInterval(drawMatrix, 50);
+                        
+                        // Command to exit matrix mode
+                        const exitMatrix = {
+                            desc: 'Exit matrix mode',
+                            execute: () => {
+                                clearInterval(matrixInterval);
+                                document.body.removeChild(canvas);
+                                document.body.style.backgroundColor = '#0a0a1a';
+                                document.body.style.color = '#00ffcc';
+                                addTerminalOutput('Exited matrix mode');
+                            }
+                        };
+                        
+                        // Temporarily replace commands with just exit
+                        const originalCommands = {...commands};
+                        Object.keys(commands).forEach(cmd => {
+                            commands[cmd] = {
+                                desc: 'Exit matrix mode',
+                                execute: exitMatrix.execute
+                            };
+                        });
+                        
+                        // Restore original commands after exit
+                        exitMatrix.execute = function() {
+                            originalCommands.exitMatrix.execute.call(this);
+                            Object.keys(originalCommands).forEach(cmd => {
+                                commands[cmd] = originalCommands[cmd];
+                            });
+                        };
+                    }
+                }
+            };
+
+            // Handle terminal input
+            terminalInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    const command = terminalInput.value.trim().toLowerCase();
+                    terminalInput.value = '';
+                    
+                    addTerminalOutput(`user@quantum:~$ ${command}`, 'input');
+                    
+                    if (command in commands) {
+                        commands[command].execute();
+                    } else if (command) {
+                        addTerminalOutput(`Command not found: ${command}`);
+                    }
+                    
+                    // Scroll to bottom
+                    terminalOutput.scrollTop = terminalOutput.scrollHeight;
+                }
+            });
+
+            function addTerminalOutput(text, type = 'output') {
+                const line = document.createElement('div');
+                if (type === 'input') {
+                    line.style.color = '#0088ff';
+                }
+                line.textContent = text;
+                terminalOutput.appendChild(line);
+            }
+        }
+
+        // Particles.js Background
+        function initParticles() {
+            // This would normally require particles.js library
+            // For demo, we'll create simple floating dots
+            const container = document.getElementById('particles-js');
+            
+            for (let i = 0; i < 100; i++) {
+                const particle = document.createElement('div');
+                particle.style.position = 'absolute';
+                particle.style.width = `${Math.random() * 5 + 1}px`;
+                particle.style.height = particle.style.width;
+                particle.style.backgroundColor = `rgba(${Math.floor(Math.random() * 100 + 155)}, ${Math.floor(Math.random() * 100 + 155)}, 255, ${Math.random() * 0.3 + 0.1})`;
+                particle.style.borderRadius = '50%';
+                particle.style.top = `${Math.random() * 100}%`;
+                particle.style.left = `${Math.random() * 100}%`;
+                
+                // Animation
+                const duration = Math.random() * 20 + 10;
+                particle.style.animation = `float ${duration}s linear infinite`;
+                particle.style.animationDelay = `${Math.random() * 10}s`;
+                
+                container.appendChild(particle);
+            }
+        }
+
+        // Add keyframes for particle animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes float {
+                0% {
+                    transform: translate(0, 0);
+                    opacity: 0;
+                }
+                10% {
+                    opacity: 1;
+                }
+                90% {
+                    opacity: 1;
+                }
+                100% {
+                    transform: translate(${Math.random() * 200 - 100}px, ${Math.random() * 200 - 100}px);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
